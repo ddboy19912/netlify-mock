@@ -20,8 +20,8 @@ app.use(cors(corsOptions));
 faker.seed(123); // Any number for consistent results
 
 // Generate users once
-const allUsers = Array.from({ length: 23214 }, () => ({
-  id: faker.string.uuid().substring(0, 11),
+const allUsers = Array.from({ length: 1000 }, () => ({
+  id: faker.string.alpha(11),
   organization: faker.company.name(),
   personalInfo: {
     firstName: faker.person.firstName(),
@@ -86,7 +86,7 @@ router.get("/", (req, res) => {
 
 // Get paginated users
 router.get("/users", (req, res) => {
-  const count = parseInt(req.query.count) || 100;
+  const count = parseInt(req.query.count) || 500;
   res.json(allUsers.slice(0, count));
 });
 
