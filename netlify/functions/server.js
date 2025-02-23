@@ -2,6 +2,20 @@ const express = require("express");
 const serverless = require("serverless-http");
 const { faker } = require('@faker-js/faker');
 
+// Add CORS middleware
+const cors = require('cors');
+const app = express();
+
+// Configure CORS options
+const corsOptions = {
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
 // Initialize with a fixed seed for consistent data
 faker.seed(123); // Any number for consistent results
 
@@ -61,7 +75,6 @@ const allUsers = Array.from({ length: 23214 }, () => ({
   }
 }));
 
-const app = express();
 const router = express.Router();
 
 // Add middleware to parse JSON bodies
