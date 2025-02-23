@@ -1,5 +1,6 @@
 const express = require("express");
 const serverless = require("serverless-http");
+const { faker } = require('@faker-js/faker');
 
 const app = express();
 const router = express.Router();
@@ -9,10 +10,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/users", (req, res) => {
-  res.json([
-    { id: 1, name: "Alice" },
-    { id: 2, name: "Bob" },
-  ]);
+  // Generate 10 random users using Faker
+  const users = Array.from({ length: 10 }, (_, i) => ({
+    id: i + 1,
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    address: {
+      street: faker.location.streetAddress(),
+      city: faker.location.city(),
+      state: faker.location.state({ abbreviated: true })
+    }
+  }));
+  res.json(users);
 });
 
 app.use("/.netlify/functions/server", router);
